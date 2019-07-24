@@ -1,0 +1,25 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'pl.com.itti'
+version = '0.1'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compile group: 'org.springframework.kafka', name: 'spring-kafka', version: '2.2.7.RELEASE'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9.1'
+
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
