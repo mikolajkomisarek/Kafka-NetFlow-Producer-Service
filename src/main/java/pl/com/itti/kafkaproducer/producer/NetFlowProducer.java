@@ -49,7 +49,7 @@ public class NetFlowProducer {
     }
 
     private void convertLoadFileToModel(){
-        logger.info("Load all NetFlow Model into Memory");
+        logger.info("Loading all NetFlow Model into Memory");
         List<String> loadedFiles = loadAllFilePathFromDirectory();
 
         loadedFiles.forEach(filePath-> {
@@ -71,6 +71,7 @@ public class NetFlowProducer {
         try (Stream<Path> paths = Files.walk(Paths.get(DIR_DATA))) {
             paths
                     .filter(Files::isRegularFile)
+                    .filter(it-> !it.toString().contains(".keep"))
                     .forEach(it -> loadedFiles.add(it.toString()));
         } catch (IOException e) {
             e.printStackTrace();
