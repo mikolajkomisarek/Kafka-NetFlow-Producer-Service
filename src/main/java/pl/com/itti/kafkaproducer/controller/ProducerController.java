@@ -20,4 +20,5 @@ public class ProducerController {
     public void sendMessageToKafkaTopic(@RequestBody NetFlowFrame netFlowFrame) {
         this.netFlowProducer.sendMessage(netFlowFrame);
     }
+
 }
