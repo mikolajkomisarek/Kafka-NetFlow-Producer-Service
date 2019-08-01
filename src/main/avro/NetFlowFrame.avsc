@@ -1,0 +1,139 @@
+{
+  "name": "NetFlowFrameAvro",
+  "type": "record",
+  "namespace": "pl.com.itti.kafkaproducer.model",
+  "fields": [
+    {
+      "name": "srcAddr",
+      "type": "string"
+    },
+    {
+      "name": "dstAddr",
+      "type": "string"
+    },
+    {
+      "name": "proto",
+      "type": "string"
+    },
+    {
+      "name": "sPort",
+      "type": "string"
+    },
+    {
+      "name": "dPort",
+      "type": "string"
+    },
+    {
+      "name": "state",
+      "type": "string"
+    },
+    {
+      "name": "sTos",
+      "type": "string"
+    },
+    {
+      "name": "dTos",
+      "type": "string"
+    },
+    {
+      "name": "srcWin",
+      "type": "string"
+    },
+    {
+      "name": "dstWin",
+      "type": "string"
+    },
+    {
+      "name": "sHops",
+      "type": "string"
+    },
+    {
+      "name": "dHops",
+      "type": "string"
+    },
+    {
+      "name": "startTime",
+      "type": "string"
+    },
+    {
+      "name": "lastTime",
+      "type": "string"
+    },
+    {
+      "name": "sTtl",
+      "type": "string"
+    },
+    {
+      "name": "dTtl",
+      "type": "string"
+    },
+    {
+      "name": "tcpRtt",
+      "type": "string"
+    },
+    {
+      "name": "synAck",
+      "type": "string"
+    },
+    {
+      "name": "ackDat",
+      "type": "string"
+    },
+    {
+      "name": "srcPkts",
+      "type": "string"
+    },
+    {
+      "name": "dstPkts",
+      "type": "string"
+    },
+    {
+      "name": "rcBytes",
+      "type": "string"
+    },
+    {
+      "name": "dstBytes",
+      "type": "string"
+    },
+    {
+      "name": "sAppBytes",
+      "type": "string"
+    },
+    {
+      "name": "dAppBytes",
+      "type": "string"
+    },
+    {
+      "name": "dur",
+      "type": "string"
+    },
+    {
+      "name": "totPkts",
+      "type": "string"
+    },
+    {
+      "name": "totBytes",
+      "type": "string"
+    },
+    {
+      "name": "totAppByte",
+      "type": "string"
+    },
+    {
+      "name": "rate",
+      "type": "string"
+    },
+    {
+      "name": "srcRate",
+      "type": "string"
+    },
+    {
+      "name": "dstRate",
+      "type": "string"
+    },
+    {
+      "name": "label",
+      "type": "string"
+    }
+  ]
+}

@@ -1,6 +1,16 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.9.1"
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'java'
+    id "com.commercehub.gradle.plugin.avro" version "0.9.1"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -11,7 +21,16 @@ sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
+    maven { url "http://packages.confluent.io/maven/" }
 }
+
+
+task generateAvro(type: com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask) {
+    source("src/avro")
+    outputDir = file("dest/avro")
+}
+
+compileJava.source(generateAvro.outputs)
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -19,7 +38,8 @@ dependencies {
     compile group: 'org.springframework.kafka', name: 'spring-kafka', version: '2.2.7.RELEASE'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9.1'
 
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+    compile group: 'org.apache.avro', name: 'avro', version: '1.9.0'
+    compile group: 'io.confluent', name: 'kafka-avro-serializer', version: '5.2.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
