@@ -9,11 +9,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.com.itti.kafkaproducer.model.NetFlowFrameAvro;
 
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -24,7 +24,7 @@ public class NetFlowProducer {
     private static final Logger logger = LoggerFactory.getLogger(NetFlowProducer.class);
     private static final String DELIMITER = ",";
     private static final String DIR_DATA = "data";
-    private static final String TOPIC = "netflow-raw-data";
+    private static final String TOPIC = "netflow-raw-2";
 
     private final KafkaTemplate<String, NetFlowFrameAvro> kafkaTemplate;
 
