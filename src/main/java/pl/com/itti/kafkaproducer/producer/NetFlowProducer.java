@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import pl.com.itti.kafkaproducer.model.NetFlowFrameAvro;
+import pl.com.itti.model.NetFlowFrame;
 
 
 import java.io.IOException;
@@ -20,16 +20,16 @@ import java.util.stream.Stream;
 @Component
 public class NetFlowProducer {
 
-    private static final Queue<NetFlowFrameAvro> netFlowFrameQueue = new LinkedList<>();
+    private static final Queue<NetFlowFrame> netFlowFrameQueue = new LinkedList<>();
     private static final Logger logger = LoggerFactory.getLogger(NetFlowProducer.class);
     private static final String DELIMITER = ",";
     private static final String DIR_DATA = "data";
-    private static final String TOPIC = "netflow-raw-2";
+    private static final String TOPIC = "netflow-raw";
 
-    private final KafkaTemplate<String, NetFlowFrameAvro> kafkaTemplate;
+    private final KafkaTemplate<String, NetFlowFrame> kafkaTemplate;
 
     @Autowired
-    public NetFlowProducer(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") KafkaTemplate<String, NetFlowFrameAvro> kafkaTemplate) {
+    public NetFlowProducer(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") KafkaTemplate<String, NetFlowFrame> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
         convertLoadFileToModel();
     }
@@ -44,7 +44,7 @@ public class NetFlowProducer {
     }
 
 
-    private void sendMessage(NetFlowFrameAvro netFlowFrame) {
+    private void sendMessage(NetFlowFrame netFlowFrame) {
         logger.info(String.format("#### -> Producing message -> %s", netFlowFrame.toString()));
         this.kafkaTemplate.send(TOPIC, UUID.randomUUID().toString(), netFlowFrame);
     }
@@ -81,8 +81,8 @@ public class NetFlowProducer {
     }
 
 
-    private NetFlowFrameAvro getNetFlowFrameFromLine(String[] netFlowLine) {
-        return new NetFlowFrameAvro(
+    private NetFlowFrame getNetFlowFrameFromLine(String[] netFlowLine) {
+        return new NetFlowFrame(
                 netFlowLine[0],
                 netFlowLine[1],
                 netFlowLine[2],
