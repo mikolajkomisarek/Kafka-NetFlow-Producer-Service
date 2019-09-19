@@ -5,42 +5,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.com.itti.model.NetFlowFrame;
-
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Component
 public class NetFlowProducer {
 
-    private static final Queue<NetFlowFrame> netFlowFrameQueue = new LinkedList<>();
     private static final Logger logger = LoggerFactory.getLogger(NetFlowProducer.class);
     private static final String DELIMITER = ",";
     private static final String DIR_DATA = "data";
-    private static final String TOPIC = "netflow-raw";
+    private static final String TOPIC = "netflow-z11";
 
     private final KafkaTemplate<String, NetFlowFrame> kafkaTemplate;
 
     @Autowired
-    public NetFlowProducer(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") KafkaTemplate<String, NetFlowFrame> kafkaTemplate) {
+    public NetFlowProducer(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") KafkaTemplate<String, NetFlowFrame> kafkaTemplate) throws InterruptedException {
         this.kafkaTemplate = kafkaTemplate;
         convertLoadFileToModel();
-    }
-
-
-
-    @Scheduled(fixedRate = 1000)
-    private void produceNetFlowFrameIntoKafka() {
-        if (netFlowFrameQueue.peek() != null) {
-            sendMessage(netFlowFrameQueue.poll());
-        }
     }
 
 
@@ -49,20 +42,34 @@ public class NetFlowProducer {
         this.kafkaTemplate.send(TOPIC, UUID.randomUUID().toString(), netFlowFrame);
     }
 
-    private void convertLoadFileToModel() {
+    private void convertLoadFileToModel() throws InterruptedException {
         logger.info("Loading all NetFlow Model into Memory");
         List<String> loadedFiles = loadAllFilePathFromDirectory();
+
+        List<NetFlowFrame> frames = new ArrayList<>();
 
         loadedFiles.forEach(filePath -> {
             try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
                 lines.filter(line -> line.contains(DELIMITER)).forEach(
-                        line -> netFlowFrameQueue.add(getNetFlowFrameFromLine(line.split(DELIMITER)))
+                        line -> frames.add(getNetFlowFrameFromLine(line.split(DELIMITER)))
                 );
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-        logger.info("Complete - Load all NetFlow Model into Memory: " + netFlowFrameQueue.size());
+
+
+        for(int x =0 ; x < frames.size();x++){
+            var current = frames.get(x);
+            var next = frames.get(x+1);
+
+            logger.info("waiting for : " + (next.getStartTime().toEpochMilli() - current.getStartTime().toEpochMilli()) + " ms");
+            Thread.sleep(next.getStartTime().toEpochMilli() - current.getStartTime().toEpochMilli());
+            sendMessage(current);
+        }
+
+
+        logger.info("Complete - Load all NetFlow Model into Memory: " + frames.size());
     }
 
 
@@ -95,8 +102,8 @@ public class NetFlowProducer {
                 netFlowLine[9],
                 netFlowLine[10],
                 netFlowLine[11],
-                netFlowLine[12],
-                netFlowLine[13],
+                LocalDateTime.parse(netFlowLine[12], DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.nnnnnn")).atZone(ZoneId.of("UTC")).toInstant(),
+                LocalDateTime.parse(netFlowLine[13], DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.nnnnnn")).atZone(ZoneId.of("UTC")).toInstant(),
                 netFlowLine[14],
                 netFlowLine[15],
                 netFlowLine[16],

@@ -13,8 +13,8 @@ protocol NetFlowFrame {
     string dstWin;
     string sHops;
     string dHops;
-    string startTime;
-    string lastTime;
+    timestamp_ms startTime;
+    timestamp_ms lastTime;
     string sTtl;
     string dTtl;
     string tcpRtt;

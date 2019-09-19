@@ -3,17 +3,17 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.9.1"
+        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.17.0"
     }
 }
 
 plugins {
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'java'
-    id "com.commercehub.gradle.plugin.avro" version "0.9.1"
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "com.commercehub.gradle.plugin.avro"
 
 group = 'pl.com.itti'
 version = '0.1'
@@ -39,7 +39,8 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9.1'
 
 
-    compile group: 'org.apache.avro', name: 'avro', version: '1.9.0'
+    compile group: 'joda-time', name: 'joda-time', version: '2.10.3'
+    compile group: 'org.apache.avro', name: 'avro', version: '1.9.1'
     compile group: 'io.confluent', name: 'kafka-avro-serializer', version: '5.2.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
