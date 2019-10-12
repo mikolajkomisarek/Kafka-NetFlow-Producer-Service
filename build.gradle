@@ -33,7 +33,6 @@ task generateAvro(type: com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask)
 compileJava.source(generateAvro.outputs)
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter'
     compile group: 'org.springframework.kafka', name: 'spring-kafka', version: '2.2.7.RELEASE'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9.1'

@@ -1,38 +1,38 @@
 @namespace ("pl.com.itti.model")
 protocol NetFlowFrame {
   record NetFlowFrame {
-    string srcAddr;
-    string dstAddr;
-    string proto;
-    string sPort;
-    string dPort;
-    string state ;
-    string sTos;
-    string dTos;
-    string srcWin;
-    string dstWin;
-    string sHops;
-    string dHops;
-    timestamp_ms startTime;
-    timestamp_ms lastTime;
-    string sTtl;
-    string dTtl;
-    string tcpRtt;
-    string synAck;
-    string ackDat;
-    string srcPkts;
-    string  dstPkts;
-    string rcBytes;
-    string dstBytes;
-    string sAppBytes;
-    string dAppBytes;
-    string dur;
-    string totPkts;
-    string totBytes;
-    string totAppByte;
-    string rate;
-    string srcRate;
-    string dstRate;
-    string label;
+    string srcAddr;  //0
+    string dstAddr; //1
+    string proto; //2
+    union{null, long} sPort; //3
+    union{null, long} dPort; //4
+    string state; //5
+    union{null, long} sTos; //6
+    union{null, long} dTos; //7
+    string srcWin; //8
+    string dstWin; //9
+    union{null, long} sHops; //10
+    union{null, long} dHops; //11
+    timestamp_ms startTime;//12
+    timestamp_ms lastTime;//13
+    union{null, long} sTtl;//14
+    union{null, long} dTtl;//15
+    double tcpRtt;//16
+    double synAck;//17
+    double ackDat;//18
+    union{null, long} srcPkts; //19
+    union{null, long}  dstPkts; //20
+    union{null, long} rcBytes; //21
+    union{null, long} dstBytes; //22
+    union{null, long} sAppBytes; //23
+    union{null, long} dAppBytes; //24
+    double dur; //25
+    union{null, long} totPkts; //26
+    union{null, long} totBytes; //27
+    union{null, long} totAppByte; //28
+    double rate; //29
+    double srcRate; //30
+    double dstRate; //31
+    string label; //32
   }
 }

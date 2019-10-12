@@ -26,7 +26,7 @@ public class NetFlowProducer {
     private static final Logger logger = LoggerFactory.getLogger(NetFlowProducer.class);
     private static final String DELIMITER = ",";
     private static final String DIR_DATA = "data";
-    private static final String TOPIC = "netflow-z11";
+    private static final String TOPIC = "netflow-czar";
 
     private final KafkaTemplate<String, NetFlowFrame> kafkaTemplate;
 
@@ -59,9 +59,9 @@ public class NetFlowProducer {
         });
 
 
-        for(int x =0 ; x < frames.size();x++){
+        for (int x = 0; x < frames.size(); x++) {
             var current = frames.get(x);
-            var next = frames.get(x+1);
+            var next = frames.get(x + 1);
 
             logger.info("waiting for : " + (next.getStartTime().toEpochMilli() - current.getStartTime().toEpochMilli()) + " ms");
             Thread.sleep(next.getStartTime().toEpochMilli() - current.getStartTime().toEpochMilli());
@@ -93,35 +93,35 @@ public class NetFlowProducer {
                 netFlowLine[0],
                 netFlowLine[1],
                 netFlowLine[2],
-                netFlowLine[3],
-                netFlowLine[4],
+                Long.getLong(netFlowLine[3]),
+                Long.getLong(netFlowLine[4]),
                 netFlowLine[5],
-                netFlowLine[6],
-                netFlowLine[7],
+                Long.getLong(netFlowLine[6]),
+                Long.getLong(netFlowLine[7]),
                 netFlowLine[8],
                 netFlowLine[9],
-                netFlowLine[10],
-                netFlowLine[11],
+                Long.getLong(netFlowLine[10]),
+                Long.getLong(netFlowLine[11]),
                 LocalDateTime.parse(netFlowLine[12], DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.nnnnnn")).atZone(ZoneId.of("UTC")).toInstant(),
                 LocalDateTime.parse(netFlowLine[13], DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.nnnnnn")).atZone(ZoneId.of("UTC")).toInstant(),
-                netFlowLine[14],
-                netFlowLine[15],
-                netFlowLine[16],
-                netFlowLine[17],
-                netFlowLine[18],
-                netFlowLine[19],
-                netFlowLine[20],
-                netFlowLine[21],
-                netFlowLine[22],
-                netFlowLine[23],
-                netFlowLine[24],
-                netFlowLine[25],
-                netFlowLine[26],
-                netFlowLine[27],
-                netFlowLine[28],
-                netFlowLine[29],
-                netFlowLine[30],
-                netFlowLine[31],
+                Long.getLong(netFlowLine[14]),
+                Long.getLong(netFlowLine[15]),
+                Double.parseDouble(netFlowLine[16]),
+                Double.parseDouble(netFlowLine[17]),
+                Double.parseDouble(netFlowLine[18]),
+                Long.getLong(netFlowLine[19]),
+                Long.getLong(netFlowLine[20]),
+                Long.getLong(netFlowLine[21]),
+                Long.getLong(netFlowLine[22]),
+                Long.getLong(netFlowLine[23]),
+                Long.getLong(netFlowLine[24]),
+                Double.parseDouble(netFlowLine[25]),
+                Long.getLong(netFlowLine[26]),
+                Long.getLong(netFlowLine[27]),
+                Long.getLong(netFlowLine[28]),
+                Double.parseDouble(netFlowLine[29]),
+                Double.parseDouble(netFlowLine[30]),
+                Double.parseDouble(netFlowLine[31]),
                 netFlowLine[32]
         );
     }
