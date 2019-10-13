@@ -1,6 +1,7 @@
 package pl.com.itti.kafkaproducer.producer;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class NetFlowProducer {
     private static final Logger logger = LoggerFactory.getLogger(NetFlowProducer.class);
     private static final String DELIMITER = ",";
     private static final String DIR_DATA = "data";
-    private static final String TOPIC = "netflow-czar";
+    private static final String TOPIC = "netflow-czar3";
 
     private final KafkaTemplate<String, NetFlowFrame> kafkaTemplate;
 
@@ -89,40 +90,53 @@ public class NetFlowProducer {
 
 
     private NetFlowFrame getNetFlowFrameFromLine(String[] netFlowLine) {
-        return new NetFlowFrame(
+        var nf =  new NetFlowFrame(
                 netFlowLine[0],
                 netFlowLine[1],
                 netFlowLine[2],
-                Long.getLong(netFlowLine[3]),
-                Long.getLong(netFlowLine[4]),
+                getNumericValue(netFlowLine[3]),
+                getNumericValue(netFlowLine[4]),
                 netFlowLine[5],
-                Long.getLong(netFlowLine[6]),
-                Long.getLong(netFlowLine[7]),
+                getNumericValue(netFlowLine[6]),
+                getNumericValue(netFlowLine[7]),
                 netFlowLine[8],
                 netFlowLine[9],
-                Long.getLong(netFlowLine[10]),
-                Long.getLong(netFlowLine[11]),
+                getNumericValue(netFlowLine[10]),
+                getNumericValue(netFlowLine[11]),
                 LocalDateTime.parse(netFlowLine[12], DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.nnnnnn")).atZone(ZoneId.of("UTC")).toInstant(),
                 LocalDateTime.parse(netFlowLine[13], DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.nnnnnn")).atZone(ZoneId.of("UTC")).toInstant(),
-                Long.getLong(netFlowLine[14]),
-                Long.getLong(netFlowLine[15]),
+                getNumericValue(netFlowLine[14]),
+                getNumericValue(netFlowLine[15]),
                 Double.parseDouble(netFlowLine[16]),
                 Double.parseDouble(netFlowLine[17]),
                 Double.parseDouble(netFlowLine[18]),
-                Long.getLong(netFlowLine[19]),
-                Long.getLong(netFlowLine[20]),
-                Long.getLong(netFlowLine[21]),
-                Long.getLong(netFlowLine[22]),
-                Long.getLong(netFlowLine[23]),
-                Long.getLong(netFlowLine[24]),
+                getNumericValue(netFlowLine[19]),
+                getNumericValue(netFlowLine[20]),
+                getNumericValue(netFlowLine[21]),
+                getNumericValue(netFlowLine[22]),
+                getNumericValue(netFlowLine[23]),
+                getNumericValue(netFlowLine[24]),
                 Double.parseDouble(netFlowLine[25]),
-                Long.getLong(netFlowLine[26]),
-                Long.getLong(netFlowLine[27]),
-                Long.getLong(netFlowLine[28]),
+                getNumericValue(netFlowLine[26]),
+                getNumericValue(netFlowLine[27]),
+                getNumericValue(netFlowLine[28]),
                 Double.parseDouble(netFlowLine[29]),
                 Double.parseDouble(netFlowLine[30]),
                 Double.parseDouble(netFlowLine[31]),
                 netFlowLine[32]
         );
+
+        return nf;
+    }
+
+
+    private Long getNumericValue(String value){
+        if(StringUtils.isNumeric(value)){
+            return Long.parseLong(value);
+        }
+        if(value.isEmpty() || value.isBlank()){
+            return null;
+        }
+        return Long.decode(value);
     }
 }
