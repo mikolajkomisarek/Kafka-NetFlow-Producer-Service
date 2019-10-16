@@ -27,7 +27,7 @@ public class NetFlowProducer {
     private static final Logger logger = LoggerFactory.getLogger(NetFlowProducer.class);
     private static final String DELIMITER = ",";
     private static final String DIR_DATA = "data";
-    private static final String TOPIC = "netflow-czar3";
+    private static final String TOPIC = "netflow-raw2";
 
     private final KafkaTemplate<String, NetFlowFrame> kafkaTemplate;
 
@@ -64,12 +64,14 @@ public class NetFlowProducer {
             var current = frames.get(x);
             var next = frames.get(x + 1);
 
-            logger.info("waiting for : " + (next.getStartTime().toEpochMilli() - current.getStartTime().toEpochMilli()) + " ms");
-            Thread.sleep(next.getStartTime().toEpochMilli() - current.getStartTime().toEpochMilli());
+            var time = next.getStartTime().toEpochMilli() - current.getStartTime().toEpochMilli();
+
+            if(time < 10000 & time >0) {
+                logger.info("waiting for : " + time + " ms");
+                Thread.sleep(time);
+            }
             sendMessage(current);
         }
-
-
         logger.info("Complete - Load all NetFlow Model into Memory: " + frames.size());
     }
 
