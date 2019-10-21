@@ -27,7 +27,7 @@ public class NetFlowProducer {
     private static final Logger logger = LoggerFactory.getLogger(NetFlowProducer.class);
     private static final String DELIMITER = ",";
     private static final String DIR_DATA = "data";
-    private static final String TOPIC = "netflow-raw2";
+    private static final String TOPIC = "netflow-raw";
 
     private final KafkaTemplate<String, NetFlowFrame> kafkaTemplate;
 

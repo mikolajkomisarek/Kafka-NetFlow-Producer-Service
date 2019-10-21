@@ -1,0 +1,95 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection) or
+# paste cURL into the file and request will be converted to HTTP Request format.
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+# curl -X PUT "localhost:9200/my_index/_doc/1?pretty" -H 'Content-Type: application/json' -d'
+
+PUT http://localhost:9200/ml-out?pretty
+Content-Type: application/json
+
+{
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "ml-out": {
+      "properties": {
+        "Infected": {
+          "type": "long"
+        },
+        "SrcAddr": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "ddadr": {
+          "type": "long"
+        },
+        "ddport": {
+          "type": "long"
+        },
+        "dprot": {
+          "type": "long"
+        },
+        "dsport": {
+          "type": "long"
+        },
+        "features": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "flcnt": {
+          "type": "long"
+        },
+        "maxStartTime": {
+          "type": "date"
+        },
+        "minStartTime": {
+          "type": "date"
+        },
+        "prediction": {
+          "type": "float"
+        },
+        "probability": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "rawPrediction": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "totbytes": {
+          "type": "float"
+        },
+        "totp": {
+          "type": "float"
+        }
+      }
+    }
+  }
+}
+
+###
+
